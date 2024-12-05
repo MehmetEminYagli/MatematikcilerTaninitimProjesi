@@ -30,6 +30,7 @@ public class ContentDisplay : MonoBehaviour
     public void ClearContent()
     {
         videoPlayer.Stop();
+        videoPlayer.clip = null;
         text1.text = string.Empty;
         text2.text = string.Empty;
         text3.text = string.Empty;

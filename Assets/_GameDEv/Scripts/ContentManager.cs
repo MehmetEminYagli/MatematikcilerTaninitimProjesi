@@ -1,49 +1,76 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
+using DG.Tweening;
+using UnityEngine.Video;
+using System.Collections;
 public class ContentManager : MonoBehaviour
 {
-    public List<Button> buttons; // Tüm butonlar
-    public List<ContentData> contents; // Tüm içerikler
-    public ContentDisplay contentDisplay; // Ýçerik gösterici
-    public GameObject panel; // Ýçeriðin gösterileceði panel
+    public List<Button> buttons;
+    public List<ContentData> contents; 
+    public ContentDisplay contentDisplay;
+    public GameObject panel;
+    public VideoPlayer videoPlayer; 
+
+    private RectTransform panelRectTransform;
+
+    public Vector2 panelMinSize = new Vector2(0, 0); 
+    public Vector2 panelMaxSize = new Vector2(100, 100);
 
     private void Start()
     {
-        // Butonlarý dinamik olarak içeriklere baðla
+        panelRectTransform = panel.GetComponent<RectTransform>();
+
         for (int i = 0; i < buttons.Count && i < contents.Count; i++)
         {
-            int index = i; // Lambda ifadesi için yerel kopya
+            int index = i; 
             buttons[i].onClick.AddListener(() => OnButtonClick(index));
         }
     }
 
-    // Buton týklamasýyla ilgili iþlem
     private void OnButtonClick(int contentIndex)
     {
         if (contentIndex >= 0 && contentIndex < contents.Count)
         {
-            // Paneli aktif et
+            
             panel.SetActive(true);
 
-            // Týklanan içeriði göster
+          
+            panelRectTransform.sizeDelta = panelMinSize; // 
+            panelRectTransform.DOSizeDelta(panelMaxSize, .6f).SetEase(Ease.OutBack); 
+
+            
             contentDisplay.DisplayContent(contents[contentIndex]);
 
-            // Diðer butonlarý gizle
+         
             ToggleButtons(false);
+
+            StartCoroutine(PlayVideoWithDelay(1.0f)); // 1 saniye bekle, sonra videoyu baþlat
         }
     }
 
-    // Paneli kapat ve butonlarý geri getir
-    public void ClosePanel()
+
+    private IEnumerator PlayVideoWithDelay(float delay)
     {
-        panel.SetActive(false);
-        contentDisplay.ClearContent();
-        ToggleButtons(true);
+        yield return new WaitForSeconds(delay); 
+        if (videoPlayer != null)
+        {
+            videoPlayer.Play(); // Video baþlat
+        }
     }
 
-    // Butonlarýn görünürlük durumunu deðiþtir
+    public void ClosePanel()
+    {
+      
+        panelRectTransform.DOSizeDelta(panelMaxSize * 1.1f, 0.3f).SetEase(Ease.InBack) // Biraz büyüsün
+            .OnComplete(() => panelRectTransform.DOSizeDelta(panelMinSize, 0.3f).SetEase(Ease.InBack)
+            .OnComplete(() => {
+               
+                panel.SetActive(false);
+                contentDisplay.ClearContent();
+                ToggleButtons(true);
+            }));
+    }
     private void ToggleButtons(bool state)
     {
         foreach (var button in buttons)
