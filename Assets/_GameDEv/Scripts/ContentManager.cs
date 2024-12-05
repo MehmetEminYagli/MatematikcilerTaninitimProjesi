@@ -36,7 +36,7 @@ public class ContentManager : MonoBehaviour
             panel.SetActive(true);
 
           
-            panelRectTransform.sizeDelta = panelMinSize; // 
+            panelRectTransform.sizeDelta = panelMinSize; 
             panelRectTransform.DOSizeDelta(panelMaxSize, .6f).SetEase(Ease.OutBack); 
 
             
@@ -45,7 +45,7 @@ public class ContentManager : MonoBehaviour
          
             ToggleButtons(false);
 
-            StartCoroutine(PlayVideoWithDelay(1.0f)); // 1 saniye bekle, sonra videoyu baþlat
+            StartCoroutine(PlayVideoWithDelay(1.0f)); 
         }
     }
 
@@ -55,14 +55,14 @@ public class ContentManager : MonoBehaviour
         yield return new WaitForSeconds(delay); 
         if (videoPlayer != null)
         {
-            videoPlayer.Play(); // Video baþlat
+            videoPlayer.Play();
         }
     }
 
     public void ClosePanel()
     {
       
-        panelRectTransform.DOSizeDelta(panelMaxSize * 1.1f, 0.3f).SetEase(Ease.InBack) // Biraz büyüsün
+        panelRectTransform.DOSizeDelta(panelMaxSize * 1.1f, 0.3f).SetEase(Ease.InBack)
             .OnComplete(() => panelRectTransform.DOSizeDelta(panelMinSize, 0.3f).SetEase(Ease.InBack)
             .OnComplete(() => {
                
