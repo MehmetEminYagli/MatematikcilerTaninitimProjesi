@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Math2
   m_EditorClassIdentifier: 
   videoClip: {fileID: 32900000, guid: 54a7062b31300a54897f54cb42486f0d, type: 3}
-  textLine1: dfjfghfd
-  textLine2: jhggh
-  textLine3: fghfgnvbnvb
-  textLine4: nvbnvbnv
+  textLine1: Pisagor
+  textLine2: "\"Pisagor Teoremi\" ile tan\u0131n\u0131r ve bu teorem, dik \xFC\xE7genlerde
+    kenar uzunluklar\u0131n\u0131 ili\u015Fkilendirir."
+  textLine3: "Pisagor, say\u0131lar\u0131n evrenin temelini olu\u015Fturdu\u011Funa
+    inan\u0131rd\u0131"
+  textLine4: "Kurdu\u011Fu Pisagorculuk ekol\xFC, matematik, felsefe ve mistisizmi
+    birle\u015Ftiren bir d\xFC\u015F\xFCnce sistemiydi."
