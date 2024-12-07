@@ -7,7 +7,7 @@ using UnityEngine.Video;
 
 public class ContentDisplay : MonoBehaviour
 {
-    public RawImage videoPlayerImage;   
+    public RawImage videoPlayerImage;
     public VideoPlayer videoPlayer;
     public RenderTexture videoRenderTexture;
 
@@ -28,35 +28,41 @@ public class ContentDisplay : MonoBehaviour
             videoPlayer.Play();
         }
 
-        yield return new WaitForSeconds(content.image1Delay);
-        ShowImageWithAnimation(image1, content.image1);
+        yield return new WaitForSeconds(0.1f); 
 
-        yield return new WaitForSeconds(content.image2Delay);
-        ShowImageWithAnimation(image2, content.image2);
-
-        yield return new WaitForSeconds(content.image3Delay);
-        ShowImageWithAnimation(image3, content.image3);
-        
-        yield return new WaitForSeconds(content.text1Delay);
-        ShowTextWithAnimation(text1, content.textLine1);
-
-
+        ShowImageAtTime(image1, content.image1, content.image1Delay);
+        ShowImageAtTime(image2, content.image2, content.image2Delay);
+        ShowImageAtTime(image3, content.image3, content.image3Delay);
+        ShowTextAtTime(text1, content.textLine1, content.text1Delay);
     }
 
-    private void ShowTextWithAnimation(TextMeshProUGUI textComponent, string text)
+    private void ShowImageAtTime(Image imageComponent, Sprite sprite, float timeToShow)
     {
-        textComponent.text = text;
-        textComponent.alpha = 0;
-        textComponent.gameObject.SetActive(true);
-        textComponent.DOFade(1, 0.5f);
+        StartCoroutine(ShowImageAfterTime(imageComponent, sprite, timeToShow));
     }
 
-    private void ShowImageWithAnimation(Image imageComponent, Sprite sprite)
+    private IEnumerator ShowImageAfterTime(Image imageComponent, Sprite sprite, float timeToShow)
     {
+        yield return new WaitUntil(() => videoPlayer.time >= timeToShow);
+
         imageComponent.sprite = sprite;
         imageComponent.transform.localScale = Vector3.zero;
         imageComponent.gameObject.SetActive(true);
         imageComponent.transform.DOScale(Vector3.one, 0.6f).SetEase(Ease.OutBack);
+    }
+
+    private void ShowTextAtTime(TextMeshProUGUI textComponent, string text, float timeToShow)
+    {
+        StartCoroutine(ShowTextAfterTime(textComponent, text, timeToShow));
+    }
+
+    private IEnumerator ShowTextAfterTime(TextMeshProUGUI textComponent, string text, float timeToShow)
+    {
+        yield return new WaitUntil(() => videoPlayer.time >= timeToShow);
+        textComponent.text = text;
+        textComponent.alpha = 0;
+        textComponent.gameObject.SetActive(true);
+        textComponent.DOFade(1, 0.5f);
     }
 
     public void ClearContent()
@@ -71,6 +77,5 @@ public class ContentDisplay : MonoBehaviour
         image1.gameObject.SetActive(false);
         image2.gameObject.SetActive(false);
         image3.gameObject.SetActive(false);
-
     }
 }
