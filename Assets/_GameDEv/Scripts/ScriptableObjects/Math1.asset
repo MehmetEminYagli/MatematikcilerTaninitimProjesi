@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1790fd6cac6965c43be608752f2ea496, type: 3}
   m_Name: Math1
   m_EditorClassIdentifier: 
-  videoClip: {fileID: 32900000, guid: 09104fb785c9286438c08256d82bc46b, type: 3}
-  textLine1: asfsafa
-  textLine2: dasfafa
-  textLine3: sgasgsdgfd
-  textLine4: cvxcvxcvc
+  videoClip: {fileID: 32900000, guid: c2e139e04261ae04bb79e2c8b02ba870, type: 3}
+  textLine1: El-Harezmi
+  text1Delay: 21
+  image1: {fileID: 21300000, guid: 5b23087ad3fbd9c47abc091be5495588, type: 3}
+  image1Delay: 5
+  image2: {fileID: 21300000, guid: a9be03ee3dfca8e45b04478bd46ffbee, type: 3}
+  image2Delay: 5
+  image3: {fileID: 21300000, guid: a9be03ee3dfca8e45b04478bd46ffbee, type: 3}
+  image3Delay: 5

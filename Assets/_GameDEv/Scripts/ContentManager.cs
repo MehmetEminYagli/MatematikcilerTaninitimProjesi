@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine.Video;
 using System.Collections;
+
 public class ContentManager : MonoBehaviour
 {
     public List<Button> buttons;
-    public List<ContentData> contents; 
+    public List<ContentData> contents;
     public ContentDisplay contentDisplay;
     public GameObject panel;
-    public VideoPlayer videoPlayer; 
+    public VideoPlayer videoPlayer;
 
     private RectTransform panelRectTransform;
 
-    public Vector2 panelMinSize = new Vector2(0, 0); 
+    public Vector2 panelMinSize = new Vector2(0, 0);
     public Vector2 panelMaxSize = new Vector2(100, 100);
 
     private void Start()
@@ -23,7 +24,7 @@ public class ContentManager : MonoBehaviour
 
         for (int i = 0; i < buttons.Count && i < contents.Count; i++)
         {
-            int index = i; 
+            int index = i;
             buttons[i].onClick.AddListener(() => OnButtonClick(index));
         }
     }
@@ -32,50 +33,36 @@ public class ContentManager : MonoBehaviour
     {
         if (contentIndex >= 0 && contentIndex < contents.Count)
         {
-            
             panel.SetActive(true);
+            panelRectTransform.sizeDelta = panelMinSize;
+            panelRectTransform.DOSizeDelta(panelMaxSize, 0.6f).SetEase(Ease.OutBack);
 
-          
-            panelRectTransform.sizeDelta = panelMinSize; 
-            panelRectTransform.DOSizeDelta(panelMaxSize, .6f).SetEase(Ease.OutBack); 
-
-            
-            contentDisplay.DisplayContent(contents[contentIndex]);
-
-         
             ToggleButtons(false);
 
-            StartCoroutine(PlayVideoWithDelay(1.0f)); 
-        }
-    }
-
-
-    private IEnumerator PlayVideoWithDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay); 
-        if (videoPlayer != null)
-        {
-            videoPlayer.Play();
+            StartCoroutine(contentDisplay.DisplayContentWithDelays(contents[contentIndex]));
         }
     }
 
     public void ClosePanel()
     {
-      
         panelRectTransform.DOSizeDelta(panelMaxSize * 1.1f, 0.3f).SetEase(Ease.InBack)
             .OnComplete(() => panelRectTransform.DOSizeDelta(panelMinSize, 0.3f).SetEase(Ease.InBack)
-            .OnComplete(() => {
-               
+            .OnComplete(() =>
+            {
                 panel.SetActive(false);
                 contentDisplay.ClearContent();
-                ToggleButtons(true);
+               
             }));
+        ToggleButtons(true);
     }
+
     private void ToggleButtons(bool state)
     {
         foreach (var button in buttons)
         {
             button.gameObject.SetActive(state);
         }
+
+        Debug.Log($"ToggleButtons called with state: {state}");
     }
 }
