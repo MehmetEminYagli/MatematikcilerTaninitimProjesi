@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.Video;
 
@@ -12,11 +13,9 @@ public class ContentDisplay : MonoBehaviour
     public RenderTexture videoRenderTexture;
 
     public TextMeshProUGUI text1;
+    public List<Image> images; 
 
-    public Image image1;
-    public Image image2;
-    public Image image3;
-
+  
     public IEnumerator DisplayContentWithDelays(ContentData content)
     {
         if (content.videoClip != null)
@@ -28,11 +27,14 @@ public class ContentDisplay : MonoBehaviour
             videoPlayer.Play();
         }
 
+       
         yield return new WaitForSeconds(0.1f); 
 
-        ShowImageAtTime(image1, content.image1, content.image1Delay);
-        ShowImageAtTime(image2, content.image2, content.image2Delay);
-        ShowImageAtTime(image3, content.image3, content.image3Delay);
+        for (int i = 0; i < content.images.Count; i++)
+        {
+            ShowImageAtTime(images[i], content.images[i], content.imageDelays[i]);
+        }
+
         ShowTextAtTime(text1, content.textLine1, content.text1Delay);
     }
 
@@ -71,11 +73,10 @@ public class ContentDisplay : MonoBehaviour
         videoPlayer.clip = null;
         videoPlayerImage.texture = null;
         videoPlayerImage.gameObject.SetActive(false);
-
         text1.text = string.Empty;
-
-        image1.gameObject.SetActive(false);
-        image2.gameObject.SetActive(false);
-        image3.gameObject.SetActive(false);
+        foreach (var image in images)
+        {
+            image.gameObject.SetActive(false);
+        }
     }
 }

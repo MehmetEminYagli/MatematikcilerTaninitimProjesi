@@ -1295,9 +1295,10 @@ MonoBehaviour:
   videoPlayer: {fileID: 1899646657}
   videoRenderTexture: {fileID: 8400000, guid: dc56601daafc27e4dbbebdaa85321576, type: 2}
   text1: {fileID: 658759386}
-  image1: {fileID: 1655148998}
-  image2: {fileID: 200170787}
-  image3: {fileID: 1833024433}
+  images:
+  - {fileID: 1655148998}
+  - {fileID: 200170787}
+  - {fileID: 1833024433}
 --- !u!114 &1031229307
 MonoBehaviour:
   m_ObjectHideFlags: 0
